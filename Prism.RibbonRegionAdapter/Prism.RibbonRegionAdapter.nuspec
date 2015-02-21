@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package >
+	<!-- http://docs.nuget.org/docs/creating-packages/creating-and-publishing-a-package -->
+  <metadata>
+		<id>Prism.RibbonRegionAdapter</id>
+    <!--<id>$id$</id>-->
+    <version>$version$</version>
+    <title>$title$</title>
+		<!--
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+		-->
+    <authors>Tilfried uTILLIty Weissenberger</authors>
+    <owners>Tilfried uTILLIty Weissenberger</owners>
+    <licenseUrl>https://prismribbonregionadapter.codeplex.com/license</licenseUrl>
+    <projectUrl>https://prismribbonregionadapter.codeplex.com/</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>See https://prismribbonregionadapter.codeplex.com/releases</releaseNotes>
+    <copyright>Copyright 2015 by Tilfried uTILLIty Weissenberger - tilli@weissenberger.at</copyright>
+    <tags>Prism Ribbon RegionAdapter</tags>
+		<!--
+    <dependencies>
+      <dependency id="SampleDependency" version="1.0" />
+    </dependencies>
+		-->
+	</metadata>
+	<files>
+		<file src="bin\$configuration$\$id$.pdb" target="lib\net45\" />
+	</files>
+</package>

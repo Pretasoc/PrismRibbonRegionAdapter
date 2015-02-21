@@ -1,0 +1,31 @@
+﻿<Window x:Class="TestApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				xmlns:prism="http://www.codeplex.com/prism"
+				xmlns:loc="clr-namespace:TestApplication"
+				xmlns:sys="clr-namespace:System;assembly=mscorlib"
+				xmlns:ext="clr-namespace:Prism.RibbonRegionAdapter;assembly=Prism.RibbonRegionAdapter"
+        Title="MainWindow" Height="350" Width="800">
+	<Grid>
+		<Ribbon prism:UIElementExtension.MergeOrder="10"
+						x:Name="MainMenu" x:FieldModifier="protected internal"
+						prism:RegionManager.RegionName="{x:Static loc:ShellRegions.MainMenu}">
+			<RibbonTab Header="General"
+								 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTab}"
+								 prism:UIElementExtension.MergeOrder="10">
+				<RibbonGroup Header="Group 1">
+					<RibbonButton Label="Group1.Button1 (Main)" />
+				</RibbonGroup>
+				<RibbonGroup Header="Group 2"
+										 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTabGroup2}">
+					<RibbonButton Label="Group2.Button1 (Main)" />
+					<RibbonButton Label="Group2.Button2 (Main)" />
+				</RibbonGroup>
+			</RibbonTab>
+			<RibbonTab Header="Last Tab"
+								 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.LastTab}"
+								 prism:UIElementExtension.MergeOrder="{x:Static sys:Double.MaxValue}">
+			</RibbonTab>
+		</Ribbon>
+	</Grid>
+</Window>
