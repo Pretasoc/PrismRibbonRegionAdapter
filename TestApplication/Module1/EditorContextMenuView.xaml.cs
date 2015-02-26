@@ -13,17 +13,18 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace TestApplication
+namespace TestApplication.Module1
 {
 	/// <summary>
-	/// Interaction logic for MainWindow.xaml
+	/// Interaction logic for EditorContextMenuView.xaml
 	/// </summary>
-	public partial class MainWindow : Window
+	public partial class EditorContextMenuView : UserControl
 	{
-		public MainWindow() : this(null)
+		public EditorContextMenuView()
+			: this(null)
 		{
 		}
-		public MainWindow(MainWindowViewModel viewModel)
+		public EditorContextMenuView(EditorContextMenuViewModel viewModel)
 		{
 			DataContext = viewModel;
 			InitializeComponent();

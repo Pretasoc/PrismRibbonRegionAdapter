@@ -26,10 +26,20 @@ namespace TestApplication
 		{
 			base.ConfigureContainer(builder);
 
-			builder.RegisterType<RibbonRegionAdapter>().SingleInstance();
-			builder.RegisterType<MainWindow>().SingleInstance();
-			builder.RegisterType<Module1.Module1>().SingleInstance();
-			builder.RegisterType<Module1.Ribbon>().SingleInstance();
+			builder.RegisterAssemblyTypes(typeof(RibbonRegionAdapter).Assembly)
+				.InNamespaceOf<RibbonRegionAdapter>()
+				.AsSelf()
+				.SingleInstance();
+
+			builder.RegisterAssemblyTypes(typeof(UIBootstrapper).Assembly)
+				.InNamespaceOf<MainWindowViewModel>()
+				.AsSelf()
+				.SingleInstance();
+
+			builder.RegisterAssemblyTypes(typeof(UIBootstrapper).Assembly)
+				.InNamespaceOf<Module1.Module1HelloCommand>()
+				.AsSelf()
+				.SingleInstance();
 		}
 
 		protected override Microsoft.Practices.Prism.Regions.RegionAdapterMappings ConfigureRegionAdapterMappings()
@@ -37,6 +47,7 @@ namespace TestApplication
 			var mappings = base.ConfigureRegionAdapterMappings();
 
 			mappings.RegisterMapping(typeof(Ribbon), ServiceLocator.Current.GetInstance<RibbonRegionAdapter>());
+			mappings.RegisterMapping(typeof(ContextMenu), ServiceLocator.Current.GetInstance<MergingItemsControlRegionAdapter>());
 
 			return mappings;
 		}

@@ -7,6 +7,10 @@
 				xmlns:ext="clr-namespace:Prism.RibbonRegionAdapter;assembly=Prism.RibbonRegionAdapter"
         Title="MainWindow" Height="350" Width="800">
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 		<Ribbon prism:UIElementExtension.MergeOrder="10"
 						x:Name="MainMenu" x:FieldModifier="protected internal"
 						prism:RegionManager.RegionName="{x:Static loc:ShellRegions.MainMenu}">
@@ -14,12 +18,12 @@
 								 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTab}"
 								 prism:UIElementExtension.MergeOrder="10">
 				<RibbonGroup Header="Group 1">
-					<RibbonButton Label="Group1.Button1 (Main)" />
+					<RibbonButton Label="Group1.Button1 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 				</RibbonGroup>
 				<RibbonGroup Header="Group 2"
 										 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTabGroup2}">
-					<RibbonButton Label="Group2.Button1 (Main)" />
-					<RibbonButton Label="Group2.Button2 (Main)" />
+					<RibbonButton Label="Group2.Button1 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+					<RibbonButton Label="Group2.Button2 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 				</RibbonGroup>
 			</RibbonTab>
 			<RibbonTab Header="Last Tab"
@@ -27,5 +31,19 @@
 								 prism:UIElementExtension.MergeOrder="{x:Static sys:Double.MaxValue}">
 			</RibbonTab>
 		</Ribbon>
+		<TextBox Grid.Row="1" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+			<TextBox.ContextMenu>
+				<ContextMenu prism:RegionManager.RegionName="{x:Static loc:ShellRegions.EditorContextMenu}">
+					<MenuItem Header="B1 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+					<MenuItem Header="B2 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
+						<MenuItem Header="B2.1 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+						<MenuItem Header="B2.2 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+					</MenuItem>
+					<Separator />
+					<MenuItem Header="B3 (Main)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+				</ContextMenu>
+			</TextBox.ContextMenu>
+			<TextBox.Text>Right-Click me for a merged context-menu with preserved DataContext</TextBox.Text>
+		</TextBox>
 	</Grid>
 </Window>

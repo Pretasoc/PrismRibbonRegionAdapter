@@ -21,7 +21,12 @@ namespace TestApplication.Module1
 	public partial class Ribbon : UserControl
 	{
 		public Ribbon()
+			: this(null)
 		{
+		}
+		public Ribbon(RibbonViewModel viewModel)
+		{
+			DataContext = viewModel;
 			InitializeComponent();
 		}
 	}

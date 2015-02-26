@@ -1,5 +1,6 @@
 ﻿using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
+using Microsoft.Practices.ServiceLocation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,15 @@ namespace TestApplication.Module1
 
 		public void Initialize()
 		{
+			_regionManager.RegisterViewWithRegion(ShellRegions.EditorContextMenu, GetContextMenu);
 			_regionManager.RegisterViewWithRegion(ShellRegions.MainMenu, typeof(Ribbon));
+		}
+
+		private object GetContextMenu()
+		{
+			var cmv = ServiceLocator.Current.GetInstance<EditorContextMenuView>();
+			cmv.ContextMenu.DataContext = cmv.DataContext;
+			return cmv.ContextMenu;
 		}
 	}
 }

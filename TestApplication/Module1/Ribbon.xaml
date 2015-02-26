@@ -14,18 +14,18 @@
 								 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTab}"
 								 prism:UIElementExtension.MergeOrder="10">
 			<RibbonGroup Header="Group 1b">
-				<RibbonButton Label="Group1b.Button1 (Module1)" />
-				<RibbonButton Label="Group1b.Button2 (Module1)" />
+				<RibbonButton Label="Group1b.Button1 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+				<RibbonButton Label="Group1b.Button2 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 			</RibbonGroup>
 			<RibbonGroup Header="Group 2"
 										 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTabGroup2}">
-				<RibbonButton Label="Group2.Button1 (Module1, 10)" prism:UIElementExtension.MergeOrder="10" />
-				<RibbonButton Label="Group2.Button2 (Module1, 99999)" prism:UIElementExtension.MergeOrder="99999" />
+				<RibbonButton Label="Group2.Button1 (Module1, 10)" prism:UIElementExtension.MergeOrder="10" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+				<RibbonButton Label="Group2.Button2 (Module1, 99999)" prism:UIElementExtension.MergeOrder="99999" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 			</RibbonGroup>
 			<RibbonGroup Header="Group 3">
-				<RibbonButton Label="Group3.Button1 (Module1)" />
-				<RibbonButton Label="Group3.Button2 (Module1)" />
-				<RibbonButton Label="Group3.Button3 (Module1)" />
+				<RibbonButton Label="Group3.Button1 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+				<RibbonButton Label="Group3.Button2 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+				<RibbonButton Label="Group3.Button3 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 			</RibbonGroup>
 		</RibbonTab>
 	</Ribbon>
