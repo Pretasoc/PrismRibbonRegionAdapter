@@ -25,8 +25,10 @@ namespace TestApplication
 			string msg = GetMessagePrefix();
 			if (parameter is RibbonButton)
 				msg += " button: " + ((RibbonButton)parameter).Label;
-			if (parameter is MenuItem)
+			else if (parameter is MenuItem)
 				msg += " menu-item: " + ((MenuItem)parameter).Header;
+			else if (parameter != null)
+				msg += " " + parameter.ToString();
 
 			MessageBox.Show(msg);
 		}

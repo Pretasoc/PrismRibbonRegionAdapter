@@ -8,15 +8,19 @@
              d:DesignHeight="300" d:DesignWidth="300">
 	<UserControl.ContextMenu>
 		<ContextMenu>
-			<MenuItem Header="B1 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+			<MenuItem Header="Bound to MenuItem (Module1)"
+								Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 			<MenuItem Header="B2 override (Module1)" 
 								prism:UIElementExtension.MergeKey="B2 (Main)"
 								Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}">
 				<MenuItem Header="B2.1 (Module1)" Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
 			</MenuItem>
-			<MenuItem Header="B3 (Module1) (10)" 
+			<MenuItem Header="Bound to Context-Menu Target (Module1) (10)" 
 								prism:UIElementExtension.MergeOrder="10"
-								Command="{Binding HelloCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Self}}" />
+								Command="{Binding HelloCommand}" CommandParameter="{prism:ContextMenuTarget}" />
+			<MenuItem Header="Bound to Context-Menu PlacementTarget (Module1) (10)" 
+								prism:UIElementExtension.MergeOrder="10"
+								Command="{Binding HelloCommand}" CommandParameter="{prism:ContextMenuTarget PropertyName=PlacementTarget}" />
 		</ContextMenu>
 	</UserControl.ContextMenu>
 </UserControl>

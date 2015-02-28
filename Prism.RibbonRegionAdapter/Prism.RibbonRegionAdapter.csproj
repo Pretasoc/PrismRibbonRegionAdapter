@@ -74,6 +74,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContextMenuTargetExtension.cs" />
     <Compile Include="DependencyObjectExtension.cs" />
     <Compile Include="MergingItemsControlRegionAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
