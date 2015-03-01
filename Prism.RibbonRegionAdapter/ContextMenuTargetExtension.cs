@@ -24,13 +24,9 @@ namespace Prism.RibbonRegionAdapter
 		/// </summary>
 		public ContextMenuTargetExtension()
 		{
-			PropertyName = "DataContext";
 		}
 
-		/// <summary>
-		/// The property to bind to on the ContextMenu
-		/// </summary>
-		public string PropertyName { get; set; }
+		public Binding TargetBinding { get; set; }
 
 		/// <summary>
 		/// Returns a binding to the DataContext of the first ContextMenu parent of the target-control, on which this extension is applied
@@ -40,13 +36,28 @@ namespace Prism.RibbonRegionAdapter
 			var target = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
 			var depObj = target.TargetObject as FrameworkElement;
 
-			var binding = new Binding(PropertyName)
-			{
-				Mode = BindingMode.OneWay,
-				RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ContextMenu), 1),
-			};
+			var binding = GetBinding();
 			var output = binding.ProvideValue(serviceProvider);
 			return output;
+		}
+
+		private Binding GetBinding()
+		{
+			Binding binding;
+			if (TargetBinding != null)
+			{
+				binding = TargetBinding;
+			}
+			else
+			{
+				binding = new Binding("DataContext")
+				{
+					Mode = BindingMode.OneWay,
+				};
+			}
+			//binding.Source = null;
+			binding.RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(ContextMenu), 1);
+			return binding;
 		}
 	}
 }

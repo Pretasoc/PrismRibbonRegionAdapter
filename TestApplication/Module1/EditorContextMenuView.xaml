@@ -20,7 +20,7 @@
 								Command="{Binding HelloCommand}" CommandParameter="{prism:ContextMenuTarget}" />
 			<MenuItem Header="Bound to Context-Menu PlacementTarget (Module1) (10)" 
 								prism:UIElementExtension.MergeOrder="10"
-								Command="{Binding HelloCommand}" CommandParameter="{prism:ContextMenuTarget PropertyName=PlacementTarget}" />
+								Command="{Binding HelloCommand}" CommandParameter="{prism:ContextMenuTarget TargetBinding={Binding PlacementTarget}}" />
 		</ContextMenu>
 	</UserControl.ContextMenu>
 </UserControl>
