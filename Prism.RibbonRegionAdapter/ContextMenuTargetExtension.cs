@@ -47,6 +47,8 @@ namespace Prism.RibbonRegionAdapter
 			if (TargetBinding != null)
 			{
 				binding = TargetBinding;
+				if (binding.Path == null || string.IsNullOrEmpty(binding.Path.Path))
+					binding.Path = new PropertyPath("DataContext");
 			}
 			else
 			{
