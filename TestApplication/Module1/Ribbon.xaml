@@ -8,7 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<Ribbon x:Name="MainMenu" x:FieldModifier="protected internal">
-		<RibbonTab Header="Module1 Tab">
+        <Ribbon.ContextualTabGroups>
+            <RibbonContextualTabGroup DataContext="{Binding DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType=Ribbon}}" Header="Test" Visibility="Visible" Background="{Binding ContextualBackground}" />
+        </Ribbon.ContextualTabGroups>
+        <RibbonTab Header="Module1 Tab" ContextualTabGroupHeader="Test">
 		</RibbonTab>
 		<RibbonTab Header="General (to be merged)"
 								 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTab}"

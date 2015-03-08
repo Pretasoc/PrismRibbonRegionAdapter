@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
-using System.Resources;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Markup;
 
 [assembly: AssemblyTitle("Prism Ribbon Region-Adapter")]
@@ -17,8 +15,8 @@ using System.Windows.Markup;
 [assembly: ComVisible(false)]
 [assembly: Guid("A0A36D3D-320F-4BBC-AD31-BFE3B20FBD4E")]
 
-[assembly: AssemblyVersion("0.13.0.0")]
-[assembly: AssemblyInformationalVersion("0.13.*")]
+[assembly: AssemblyVersion("0.20.0.0")]
+[assembly: AssemblyInformationalVersion("0.20.*")]
 
 [assembly: XmlnsDefinition("http://www.codeplex.com/prism", "Prism.RibbonRegionAdapter")]
 [assembly: InternalsVisibleTo("Prism.RibbonRegionAdapter.Tests")]

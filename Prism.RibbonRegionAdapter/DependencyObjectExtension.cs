@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace Prism.RibbonRegionAdapter
@@ -29,7 +24,7 @@ namespace Prism.RibbonRegionAdapter
 
 			while (parentObject != null)
 			{
-				T typedParent = parentObject as T;
+				var typedParent = parentObject as T;
 				if (typedParent != null)
 					return typedParent;
 				parentObject = VisualTreeHelper.GetParent(parentObject);
@@ -71,38 +66,50 @@ namespace Prism.RibbonRegionAdapter
 			if (parent == null)
 				return;
 
-			if (preserveDataContext && parent is FrameworkElement && child is FrameworkElement)
-				((FrameworkElement)child).DataContext = ((FrameworkElement)parent).DataContext;
-				
-			var parentAsPresenter = parent as System.Windows.Controls.ContentPresenter;
-			if (parentAsPresenter != null)
+			object dc = null;
+			if (preserveDataContext && child is FrameworkElement)
 			{
-				parentAsPresenter.Content = null;
-				return;
+				dc = ((FrameworkElement) child).DataContext;
+				if (dc == null && parent is FrameworkElement)
+					dc = ((FrameworkElement) parent).DataContext;
 			}
-			var parentAsPanel = parent as System.Windows.Controls.Panel;
-			if (parentAsPanel != null)
+
+			try
 			{
-				parentAsPanel.Children.Remove(child);
-				return;
+				var parentAsPresenter = parent as System.Windows.Controls.ContentPresenter;
+				if (parentAsPresenter != null)
+				{
+					parentAsPresenter.Content = null;
+					return;
+				}
+				var parentAsPanel = parent as System.Windows.Controls.Panel;
+				if (parentAsPanel != null)
+				{
+					parentAsPanel.Children.Remove(child);
+					return;
+				}
+				var parentAsContentControl = parent as System.Windows.Controls.ContentControl;
+				if (parentAsContentControl != null)
+				{
+					parentAsContentControl.Content = null;
+					return;
+				}
+				var parentAsDecorator = parent as System.Windows.Controls.Decorator;
+				if (parentAsDecorator != null)
+				{
+					parentAsDecorator.Child = null;
+					return;
+				}
+				var parentAsItemsControl = parent as System.Windows.Controls.ItemsControl;
+				if (parentAsItemsControl != null)
+				{
+					parentAsItemsControl.Items.Remove(child);
+				}
 			}
-			var parentAsContentControl = parent as System.Windows.Controls.ContentControl;
-			if (parentAsContentControl != null)
+			finally
 			{
-				parentAsContentControl.Content = null;
-				return;
-			}
-			var parentAsDecorator = parent as System.Windows.Controls.Decorator;
-			if (parentAsDecorator != null)
-			{
-				parentAsDecorator.Child = null;
-				return;
-			}
-			var parentAsItemsControl = parent as System.Windows.Controls.ItemsControl;
-			if (parentAsItemsControl != null)
-			{
-				parentAsItemsControl.Items.Remove(child);
-				return;
+				if (preserveDataContext && child is FrameworkElement && dc != null)
+					((FrameworkElement)child).DataContext = dc;
 			}
 		}
 

@@ -1,10 +1,9 @@
-﻿using Microsoft.Practices.Prism.Regions;
-using System;
+﻿using System.Collections;
 using System.Collections.Generic;
+using Microsoft.Practices.Prism.Regions;
+using System;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -36,45 +35,45 @@ namespace Prism.RibbonRegionAdapter
 			region.Views.CollectionChanged += (o, e) => OnViewsChanged(o, e, region, regionTarget);
 		}
 
-		private void OnActiveViewsChanged(object o, NotifyCollectionChangedEventArgs e, IRegion region, ItemsControl regionTarget)
+		// ReSharper disable UnusedParameter.Local
+		private void OnActiveViewsChanged(object o, NotifyCollectionChangedEventArgs e, IRegion region, ItemsControl target)
 		{
-			var sel = regionTarget as Selector;
+			var sel = target as Selector;
 			if (sel != null)
 				sel.SelectedItem = region.ActiveViews.FirstOrDefault();
 		}
 
-		private void OnViewsChanged(object o, NotifyCollectionChangedEventArgs e, IRegion region, ItemsControl regionTarget)
+		private void OnViewsChanged(object o, NotifyCollectionChangedEventArgs e, IRegion region, ItemsControl target)
 		{
-			switch (e.Action)
-			{
-				case NotifyCollectionChangedAction.Add:
-					MergeItems(e.NewItems, regionTarget);
-					break;
-				case NotifyCollectionChangedAction.Remove:
-					RemoveItems(e.NewItems, regionTarget);
-					break;
-			}
+			if (e.NewItems != null)
+				MergeItems(e.NewItems, target);
+			if (e.OldItems != null)
+				UnmergeItems(e.OldItems, target);
 		}
+		// ReSharper restore UnusedParameter.Local
 
-		protected virtual void MergeItems(System.Collections.IList list, ItemsControl regionTarget)
+		protected virtual void MergeItems(IList list, ItemsControl target)
 		{
+			if (list == null)
+				return;
+
 			foreach (object item in list)
 			{
 				if (item is ItemsControl)
-					MergeItemsControl((ItemsControl)item, regionTarget);
+					MergeItemsControl(item, (ItemsControl)item, target);
 				else
-					MergeNonItemsControl(item as UIElement, regionTarget);
+					MergeNonItemsControl(item as UIElement, target);
 			}
 		}
 
-		protected virtual void MergeNonItemsControl(UIElement item, ItemsControl regionTarget)
+		protected virtual internal void MergeNonItemsControl(UIElement item, ItemsControl target)
 		{
 			if (item == null)
 				return;
-			InsertItem(item, regionTarget);
+			InsertItem(item, item, target.Items);
 		}
 
-		protected virtual internal void MergeItemsControl(ItemsControl source, ItemsControl target)
+		protected virtual internal void MergeItemsControl(object sourceView, ItemsControl source, ItemsControl target)
 		{
 			var items = source.Items.Cast<UIElement>().ToArray();
 			foreach (UIElement item in items)
@@ -85,32 +84,66 @@ namespace Prism.RibbonRegionAdapter
 						.OfType<ItemsControl>()
 						.FirstOrDefault(t => ItemsMatch(t, item));
 					if (existingItem == null)
-						InsertItem(item, target);
+						InsertItem(sourceView, item, target.Items);
 					else
-						MergeItemsControl((ItemsControl)item, existingItem);
+						MergeItemsControl(sourceView, (ItemsControl)item, existingItem);
 				}
 				else
 				{
-					InsertItem(item, target);
+					InsertItem(sourceView, item, target.Items);
 				}
 			}
 		}
 
-		private void InsertItem(UIElement item, ItemsControl target)
+		private readonly Dictionary<object, List<UIElement>> _mergedItemsByView = new Dictionary<object, List<UIElement>>();
+
+		protected void InsertItem(object sourceView, UIElement item, IList target)
 		{
+			RememberMergedItem(sourceView, item);
 			item.DisconnectFromParent();
-			UIElementExtension.InsertSorted(item, target.Items);
+			UIElementExtension.InsertSorted(item, target);
 		}
 
-		protected virtual internal void RemoveItems(System.Collections.IList list, ItemsControl target)
+		private void RememberMergedItem(object sourceView, UIElement item)
 		{
-			throw new NotImplementedException();
+			if (!_mergedItemsByView.ContainsKey(sourceView))
+				_mergedItemsByView.Add(sourceView, new List<UIElement>());
+			var list = _mergedItemsByView[sourceView];
+			list.Add(item);
+		}
+
+		protected virtual internal void UnmergeItems(IList list, ItemsControl target)
+		{
+			if (list == null)
+				return;
+
+			foreach (var item in list)
+			{
+				Unmerge(item, target);
+			}
+		}
+
+		protected virtual void Unmerge(object view, ItemsControl target)
+		{
+			var list = GetMergedItemsByView(view);
+			if (list == null)
+				return;
+			list.ForEach(i => i.DisconnectFromParent(false));
+			_mergedItemsByView.Remove(view);
+		}
+
+		protected virtual internal List<UIElement> GetMergedItemsByView(object view)
+		{
+			if (!_mergedItemsByView.ContainsKey(view))
+				return null;
+			var list = _mergedItemsByView[view];
+			return list;
 		}
 
 		/// <summary>
-		/// Creates a new instance of <see cref="SingleActiveRegion"/>.
+		/// Creates a new instance of <see cref="SingleActiveRegion"/>
 		/// </summary>
-		/// <returns>A new instance of <see cref="SingleActiveRegion"/>.</returns>
+		/// <returns>A new instance of <see cref="SingleActiveRegion"/></returns>
 		protected override IRegion CreateRegion()
 		{
 			return new SingleActiveRegion();

@@ -1,25 +1,16 @@
 ﻿using Autofac;
-using Microsoft.Practices.Prism.Logging;
 using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
 using Prism.AutofacExtension;
 using Prism.RibbonRegionAdapter;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Controls.Ribbon;
-using System.Windows.Input;
 
 namespace TestApplication
 {
-	public partial class UIBootstrapper : AutofacBootstrapper
+	public class UIBootstrapper : AutofacBootstrapper
 	{
 
 		protected override void ConfigureContainer(ContainerBuilder builder)
@@ -39,10 +30,10 @@ namespace TestApplication
 			builder.RegisterAssemblyTypes(typeof(UIBootstrapper).Assembly)
 				.InNamespaceOf<Module1.Module1HelloCommand>()
 				.AsSelf()
-				.SingleInstance();
+				.InstancePerDependency();
 		}
 
-		protected override Microsoft.Practices.Prism.Regions.RegionAdapterMappings ConfigureRegionAdapterMappings()
+		protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
 		{
 			var mappings = base.ConfigureRegionAdapterMappings();
 
@@ -61,7 +52,7 @@ namespace TestApplication
 		private void AddModule<T>(string moduleName = null) where T : class, IModule
 		{
 			var moduleType = typeof(T);
-			ModuleInfo module = new ModuleInfo()
+			var module = new ModuleInfo
 			{
 				Ref = moduleType.Assembly.CodeBase,
 				ModuleName = moduleName ?? moduleType.Name,
@@ -86,12 +77,6 @@ namespace TestApplication
 			var shell = (MainWindow)Shell;
 			Application.Current.MainWindow = shell;
 			Application.Current.MainWindow.Show();
-		}
-
-		private void EnsureDirectoryExists(string directory)
-		{
-			if (!Directory.Exists(directory))
-				Directory.CreateDirectory(directory);
 		}
 
 	}

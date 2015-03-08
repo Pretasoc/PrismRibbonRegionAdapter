@@ -1,15 +1,9 @@
 ﻿using Microsoft.Practices.Prism.Regions;
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
 
 namespace Prism.RibbonRegionAdapter
 {
@@ -25,8 +19,6 @@ namespace Prism.RibbonRegionAdapter
 		{
 		}
 
-		Ribbon _targetRibbon;
-
 		/// <summary>
 		/// Adapts a <see cref="ContentControl"/> to an <see cref="IRegion"/>.
 		/// </summary>
@@ -34,73 +26,91 @@ namespace Prism.RibbonRegionAdapter
 		/// <param name="regionTarget">The object to adapt.</param>
 		protected override void Adapt(IRegion region, ItemsControl regionTarget)
 		{
-			_targetRibbon = regionTarget as Ribbon;
-			if (_targetRibbon == null)
-				throw new ArgumentNullException("regionTarget must be of Type " + typeof(Ribbon).FullName);
+			Adapt(regionTarget);
 			base.Adapt(region, regionTarget);
 		}
 
-		protected override void MergeNonItemsControl(UIElement item, ItemsControl regionTarget)
+		internal void Adapt(ItemsControl regionTarget)
+		{
+			if (!(regionTarget is Ribbon))
+				throw new ArgumentNullException("target must be of Type " + typeof(Ribbon).FullName);
+		}
+
+		protected internal override void MergeNonItemsControl(UIElement item, ItemsControl target)
 		{
 			if (item == null)
 				return;
 
-			var ribbon = _targetRibbon;
-			var ribbonToMerge = GetRibbon((UIElement)item);
-			MergeRibbon(ribbonToMerge, ribbon);
+			var ribbon = (Ribbon)target;
+			var ribbonToMerge = GetRibbon(item);
+			MergeRibbon(item, ribbonToMerge, ribbon);
+		}
+
+		protected override void Unmerge(object view, ItemsControl target)
+		{
+			var ribbon = (Ribbon) target;
+			var list = GetMergedItemsByView(view);
+			if (list == null)
+				return;
+			/* RibbonContextualTabGroup items are not part of the visual tree (if they are not visible), 
+			 * so we must handle them separately */
+			list.OfType<RibbonContextualTabGroup>().ToList()
+				.ForEach(i => ribbon.ContextualTabGroups.Remove((i)));
+			base.Unmerge(view, target);
 		}
 
 		protected virtual internal Ribbon GetRibbon(UIElement element)
 		{
 			if (element is Ribbon)
 				return (Ribbon)element;
-			else if (element is UserControl)
+			if (element is UserControl)
 			{
 				var uc = (UserControl)element;
 				if (uc.Content is Ribbon)
 					return (Ribbon)uc.Content;
-				else
-					throw new NotSupportedException(string.Format("UserControl.Content of {0} is not a ribbon", element.GetType().FullName));
+				throw new NotSupportedException(string.Format("UserControl.Content of {0} is not a ribbon", element.GetType().FullName));
 			}
 			throw new NotSupportedException(string.Format("Cannot merge view of type {0} with a ribbon", element.GetType().FullName));
 		}
 
-		protected virtual internal void MergeRibbon(Ribbon moduleRibbon, Ribbon ribbon)
+		protected virtual internal void MergeRibbon(object sourceView, Ribbon moduleRibbon, Ribbon ribbon)
 		{
-			MergeApplicationMenu(moduleRibbon, ribbon);
-			MergeQuickAccessToolbar(moduleRibbon, ribbon);
-			MergeContextualTabGroups(moduleRibbon, ribbon);
-			MergeItemsControl(moduleRibbon, ribbon);
+			MergeApplicationMenu(sourceView, moduleRibbon, ribbon);
+			MergeQuickAccessToolbar(sourceView, moduleRibbon, ribbon);
+			MergeContextualTabGroups(sourceView, moduleRibbon, ribbon);
+			MergeItemsControl(sourceView, moduleRibbon, ribbon);
 		}
 
-		protected virtual internal void MergeQuickAccessToolbar(Ribbon moduleRibbon, Ribbon ribbon)
+		protected virtual internal void MergeQuickAccessToolbar(object sourceView, Ribbon moduleRibbon, Ribbon ribbon)
 		{
 			if (moduleRibbon.QuickAccessToolBar != null)
 			{
 				if (ribbon.QuickAccessToolBar == null)
 					ribbon.QuickAccessToolBar = new RibbonQuickAccessToolBar();
-				MergeItemsControl(moduleRibbon.QuickAccessToolBar, ribbon.QuickAccessToolBar);
+				MergeItemsControl(sourceView, moduleRibbon.QuickAccessToolBar, ribbon.QuickAccessToolBar);
 			}
 		}
 
-		protected virtual internal void MergeApplicationMenu(Ribbon moduleRibbon, Ribbon ribbon)
+		protected virtual internal void MergeApplicationMenu(object sourceView, Ribbon moduleRibbon, Ribbon ribbon)
 		{
 			if (moduleRibbon.ApplicationMenu != null)
 			{
 				if (ribbon.ApplicationMenu == null)
 					ribbon.ApplicationMenu = new RibbonApplicationMenu();
-				MergeItemsControl(moduleRibbon.ApplicationMenu, ribbon.ApplicationMenu);
+				MergeItemsControl(sourceView, moduleRibbon.ApplicationMenu, ribbon.ApplicationMenu);
 			}
 		}
 
-		protected virtual internal void MergeContextualTabGroups(Ribbon moduleRibbon, Ribbon ribbon)
+		protected virtual internal void MergeContextualTabGroups(object sourceView, Ribbon moduleRibbon, Ribbon ribbon)
 		{
 			foreach (RibbonContextualTabGroup group in moduleRibbon.ContextualTabGroups)
 			{
 				if (!ribbon.ContextualTabGroups.Any(t => ItemsMatch(t, group)))
 				{
 					group.DisconnectFromParent();
-					ribbon.ContextualTabGroups.Add(group);
+					if (group.DataContext == null)
+						group.DataContext = moduleRibbon.DataContext;
+					InsertItem(sourceView, group, ribbon.ContextualTabGroups);
 				}
 			}
 		}

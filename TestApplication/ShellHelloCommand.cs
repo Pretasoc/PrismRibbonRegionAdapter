@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
@@ -28,7 +24,7 @@ namespace TestApplication
 			else if (parameter is MenuItem)
 				msg += " menu-item: " + ((MenuItem)parameter).Header;
 			else if (parameter != null)
-				msg += " " + parameter.ToString();
+				msg += " " + parameter;
 
 			MessageBox.Show(msg);
 		}

@@ -1,14 +1,10 @@
 ﻿using Microsoft.Practices.Prism.Modularity;
 using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TestApplication.Module1
 {
+	[Module(ModuleName = "Module1", OnDemand = true)]
 	class Module1 : IModule
 	{
 
@@ -22,13 +18,12 @@ namespace TestApplication.Module1
 		public void Initialize()
 		{
 			_regionManager.RegisterViewWithRegion(ShellRegions.EditorContextMenu, GetContextMenu);
-			_regionManager.RegisterViewWithRegion(ShellRegions.MainMenu, typeof(Ribbon));
+			//_regionManager.RegisterViewWithRegion(ShellRegions.MainMenu, typeof(Ribbon));
 		}
 
 		private object GetContextMenu()
 		{
 			var cmv = ServiceLocator.Current.GetInstance<EditorContextMenuView>();
-			cmv.ContextMenu.DataContext = cmv.DataContext;
 			return cmv.ContextMenu;
 		}
 	}

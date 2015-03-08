@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -20,12 +16,9 @@ namespace Prism.RibbonRegionAdapter
 	public class ContextMenuTargetExtension : MarkupExtension
 	{
 		/// <summary>
-		/// Creates a default instance with <see cref="PropertyName"/> &quot;DataContext&quot;
+		/// The Binding to use (auto-created, if not supplied). Souce must not be set and
+		/// this class will set it's RelativeSource property
 		/// </summary>
-		public ContextMenuTargetExtension()
-		{
-		}
-
 		public Binding TargetBinding { get; set; }
 
 		/// <summary>
@@ -33,9 +26,6 @@ namespace Prism.RibbonRegionAdapter
 		/// </summary>
 		public override object ProvideValue(IServiceProvider serviceProvider)
 		{
-			var target = (IProvideValueTarget)serviceProvider.GetService(typeof(IProvideValueTarget));
-			var depObj = target.TargetObject as FrameworkElement;
-
 			var binding = GetBinding();
 			var output = binding.ProvideValue(serviceProvider);
 			return output;

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Windows.Input;
+using System.Windows.Media;
 
 namespace TestApplication.Module1
 {
@@ -12,7 +8,10 @@ namespace TestApplication.Module1
 		public RibbonViewModel(Module1HelloCommand cmd)
 		{
 			HelloCommand = cmd;
+		    ContextualBackground = new SolidColorBrush(Colors.Orange);
 		}
 		public ICommand HelloCommand { get; set; }
+
+	    public Brush ContextualBackground { get; set; }
 	}
 }

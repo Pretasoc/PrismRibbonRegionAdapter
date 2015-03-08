@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Prism.RibbonRegionAdapter
 {
@@ -75,10 +71,10 @@ namespace Prism.RibbonRegionAdapter
 		/// <summary>
 		/// Inserts the supplied <paramref name="item"/> into the given <paramref name="collection"/>
 		/// </summary>
-		public static void InsertSorted(UIElement item, ItemCollection collection, double fallbackOrder = DefaultMergeOrder)
+        public static void InsertSorted(UIElement item, IList collection, double fallbackOrder = DefaultMergeOrder)
 		{
-			var order = UIElementExtension.GetMergeOrder(item);
-			if (order == DefaultMergeOrder)
+			var order = GetMergeOrder(item);
+			if (Math.Abs(order - DefaultMergeOrder) < 0.001)
 			{
 				order = fallbackOrder;
 				SetMergeOrder(item, order);
@@ -87,7 +83,7 @@ namespace Prism.RibbonRegionAdapter
 			int insertPosition = 0;
 			foreach (UIElement t in collection)
 			{
-				var curOrder = UIElementExtension.GetMergeOrder(t);
+				var curOrder = GetMergeOrder(t);
 				if (curOrder > order)
 					break;
 				insertPosition++;
