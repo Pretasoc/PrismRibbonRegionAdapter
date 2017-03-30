@@ -1,6 +1,7 @@
-﻿using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
+﻿
 using Microsoft.Practices.ServiceLocation;
+using Prism.Modularity;
+using Prism.Regions;
 
 namespace TestApplication.Module1
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
-using Microsoft.Practices.Prism.Regions;
+using Prism.Regions;
 
 namespace TestApplication
 {

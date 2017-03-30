@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using Microsoft.Practices.Prism.Regions;
 using Microsoft.Practices.ServiceLocation;
+using Prism.Regions;
 
 namespace TestApplication
 {

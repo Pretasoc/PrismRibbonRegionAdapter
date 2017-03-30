@@ -1,9 +1,10 @@
-﻿using Microsoft.Practices.Prism.Regions;
+﻿
 using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
+using Prism.Regions;
 
 namespace Prism.RibbonRegionAdapter
 {

@@ -1,21 +1,22 @@
-﻿using Autofac;
-using Microsoft.Practices.Prism.Modularity;
-using Microsoft.Practices.Prism.Regions;
-using Microsoft.Practices.ServiceLocation;
-using Prism.AutofacExtension;
+﻿using Microsoft.Practices.ServiceLocation;
 using Prism.RibbonRegionAdapter;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
+using Autofac;
+using Prism.Autofac;
+using Prism.Modularity;
+using Prism.Regions;
 
 namespace TestApplication
 {
 	public class UIBootstrapper : AutofacBootstrapper
 	{
 
-		protected override void ConfigureContainer(ContainerBuilder builder)
+
+		protected override void ConfigureContainerBuilder(ContainerBuilder builder)
 		{
-			base.ConfigureContainer(builder);
+			base.ConfigureContainerBuilder(builder);
 
 			builder.RegisterAssemblyTypes(typeof(RibbonRegionAdapter).Assembly)
 				.InNamespaceOf<RibbonRegionAdapter>()
@@ -36,8 +37,8 @@ namespace TestApplication
 		protected override RegionAdapterMappings ConfigureRegionAdapterMappings()
 		{
 			var mappings = base.ConfigureRegionAdapterMappings();
-
-			mappings.RegisterMapping(typeof(Ribbon), ServiceLocator.Current.GetInstance<RibbonRegionAdapter>());
+	
+            mappings.RegisterMapping(typeof(Ribbon), ServiceLocator.Current.GetInstance<RibbonRegionAdapter>());
 			mappings.RegisterMapping(typeof(ContextMenu), ServiceLocator.Current.GetInstance<MergingItemsControlRegionAdapter>());
 
 			return mappings;

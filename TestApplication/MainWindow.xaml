@@ -13,8 +13,8 @@
 			<RowDefinition Height="*"/>
 		</Grid.RowDefinitions>
 		<Ribbon prism:UIElementExtension.MergeOrder="10"
-						x:Name="MainMenu" x:FieldModifier="protected internal"
-						prism:RegionManager.RegionName="{x:Static loc:ShellRegions.MainMenu}">
+						x:Name="MainMenu"
+		        prism:RegionManager.RegionName="{x:Static loc:ShellRegions.MainMenu}">
 			<RibbonTab Header="General"
 								 prism:UIElementExtension.MergeKey="{x:Static loc:MainMenuMergeKeys.GeneralTab}"
 								 prism:UIElementExtension.MergeOrder="10">

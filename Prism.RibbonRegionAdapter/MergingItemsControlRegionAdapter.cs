@@ -1,12 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Microsoft.Practices.Prism.Regions;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Prism.Regions;
 
 namespace Prism.RibbonRegionAdapter
 {
@@ -73,7 +73,7 @@ namespace Prism.RibbonRegionAdapter
 			InsertItem(item, item, target.Items);
 		}
 
-		protected virtual internal void MergeItemsControl(object sourceView, ItemsControl source, ItemsControl target)
+		protected internal virtual void MergeItemsControl(object sourceView, ItemsControl source, ItemsControl target)
 		{
 			var items = source.Items.Cast<UIElement>().ToArray();
 			foreach (UIElement item in items)

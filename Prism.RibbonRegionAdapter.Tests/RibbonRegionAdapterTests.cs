@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Practices.ServiceLocation;
 using TestApplication;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Controls;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Prism.RibbonRegionAdapter.Tests
 {
