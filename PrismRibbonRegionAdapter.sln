@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.RibbonRegionAdapter.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApplication", "TestApplication\TestApplication.csproj", "{B407C2B3-2700-438F-8700-B1ED6816DA70}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.Fluent.RegionAdapter", "Prism.Fluent.RegionAdapter\Prism.Fluent.RegionAdapter.csproj", "{552C9781-1FDD-4B3F-BB9E-5039F5389306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleApplication", "SampleApplication\SampleApplication.csproj", "{F25C3789-DEED-4B22-91CC-B5686905F53D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{B407C2B3-2700-438F-8700-B1ED6816DA70}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B407C2B3-2700-438F-8700-B1ED6816DA70}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B407C2B3-2700-438F-8700-B1ED6816DA70}.Release|Any CPU.Build.0 = Release|Any CPU
+		{552C9781-1FDD-4B3F-BB9E-5039F5389306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{552C9781-1FDD-4B3F-BB9E-5039F5389306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{552C9781-1FDD-4B3F-BB9E-5039F5389306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{552C9781-1FDD-4B3F-BB9E-5039F5389306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F25C3789-DEED-4B22-91CC-B5686905F53D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F25C3789-DEED-4B22-91CC-B5686905F53D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F25C3789-DEED-4B22-91CC-B5686905F53D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F25C3789-DEED-4B22-91CC-B5686905F53D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

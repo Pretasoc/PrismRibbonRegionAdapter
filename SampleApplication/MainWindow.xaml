@@ -1,0 +1,35 @@
+﻿<ribbon:RibbonWindow x:Class="SampleApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ribbon="urn:fluent-ribbon"
+        xmlns:local="clr-namespace:SampleApplication"
+        xmlns:prism="http://www.codeplex.com/prism"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+       
+        <ribbon:Ribbon >
+            <ribbon:Ribbon.Menu>
+                <ribbon:ApplicationMenu>
+                    <ribbon:MenuItem Header="Test"></ribbon:MenuItem>
+                </ribbon:ApplicationMenu>
+            </ribbon:Ribbon.Menu>
+            <ribbon:RibbonTabItem Header="Home" >
+                <ribbon:RibbonGroupBox Header="Views">
+                 
+                </ribbon:RibbonGroupBox>
+
+            </ribbon:RibbonTabItem>
+     
+
+
+
+        </ribbon:Ribbon>
+
+
+    </Grid>
+
+
+</ribbon:RibbonWindow>
